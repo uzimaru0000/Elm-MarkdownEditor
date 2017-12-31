@@ -1,0 +1,52 @@
+body {
+    padding: 0;
+    margin: 0;
+    color: #3c3c3c;
+}
+
+header {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 64px;
+    background: #8abe5e;
+    align-items: center;
+}
+
+div#content {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+div#content > div {
+    width: 50%;
+    margin-top: 64px;
+    box-sizing: border-box;
+    border: 1px #3c3c3c solid;
+}
+
+textarea#planeText {
+    resize: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #3c3c3c;
+    color: #eeeeee;
+    font-size: 16px;
+}
+
+div#mdArea {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
