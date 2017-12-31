@@ -16,7 +16,8 @@
   },
   "devDependencies": {},
   "scripts": {
-      "dev": "webpack-dev-server --hot --port 3000"
+      "dev": "webpack-dev-server --hot --port 3000",
+      "build": "webpack"
   },
   "keywords": [],
   "author": "",
