@@ -15,6 +15,7 @@ header {
     height: 64px;
     background: #8abe5e;
     align-items: center;
+    z-index: 1;
 }
 
 div#content {

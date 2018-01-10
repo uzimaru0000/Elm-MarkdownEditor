@@ -5,6 +5,7 @@ import Window exposing (Size, resizes)
 import Model exposing (Model, Msg(..), init)
 import Update exposing (update)
 import View exposing (view)
+import Blob exposing (getDownloadUrl)
 
 
 -- Subscriptions
@@ -12,7 +13,10 @@ import View exposing (view)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    resizes GetWindowSize
+    Sub.batch
+        [ resizes GetWindowSize
+        , getDownloadUrl GetUrl
+        ]
 
 
 
