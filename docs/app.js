@@ -85,6 +85,12 @@ const mountNode = document.getElementById('main');
 
 const app = elm.Main.embed(mountNode);
 
+app.ports.createDownloadUrl.subscribe(str => {
+    const blob = new Blob([ str ], { "type": "application/json" });
+    window.URL = window.URL || window.webkitURL;
+    app.ports.getDownloadUrl.send(window.URL.createObjectURL(blob));
+});
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2835,6 +2841,39 @@ var _elm_lang$core$Char$isHexDigit = function ($char) {
 		$char));
 };
 
+//import Result //
+
+var _elm_lang$core$Native_Date = function() {
+
+function fromString(str)
+{
+	var date = new Date(str);
+	return isNaN(date.getTime())
+		? _elm_lang$core$Result$Err('Unable to parse \'' + str + '\' as a date. Dates must be in the ISO 8601 format.')
+		: _elm_lang$core$Result$Ok(date);
+}
+
+var dayTable = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+var monthTable =
+	['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+	 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+
+return {
+	fromString: fromString,
+	year: function(d) { return d.getFullYear(); },
+	month: function(d) { return { ctor: monthTable[d.getMonth()] }; },
+	day: function(d) { return d.getDate(); },
+	hour: function(d) { return d.getHours(); },
+	minute: function(d) { return d.getMinutes(); },
+	second: function(d) { return d.getSeconds(); },
+	millisecond: function(d) { return d.getMilliseconds(); },
+	toTime: function(d) { return d.getTime(); },
+	fromTime: function(t) { return new Date(t); },
+	dayOfWeek: function(d) { return { ctor: dayTable[d.getDay()] }; }
+};
+
+}();
 //import Native.Utils //
 
 var _elm_lang$core$Native_Scheduler = function() {
@@ -5591,6 +5630,39 @@ var _elm_lang$core$Time$subMap = F2(
 			});
 	});
 _elm_lang$core$Native_Platform.effectManagers['Time'] = {pkg: 'elm-lang/core', init: _elm_lang$core$Time$init, onEffects: _elm_lang$core$Time$onEffects, onSelfMsg: _elm_lang$core$Time$onSelfMsg, tag: 'sub', subMap: _elm_lang$core$Time$subMap};
+
+var _elm_lang$core$Date$millisecond = _elm_lang$core$Native_Date.millisecond;
+var _elm_lang$core$Date$second = _elm_lang$core$Native_Date.second;
+var _elm_lang$core$Date$minute = _elm_lang$core$Native_Date.minute;
+var _elm_lang$core$Date$hour = _elm_lang$core$Native_Date.hour;
+var _elm_lang$core$Date$dayOfWeek = _elm_lang$core$Native_Date.dayOfWeek;
+var _elm_lang$core$Date$day = _elm_lang$core$Native_Date.day;
+var _elm_lang$core$Date$month = _elm_lang$core$Native_Date.month;
+var _elm_lang$core$Date$year = _elm_lang$core$Native_Date.year;
+var _elm_lang$core$Date$fromTime = _elm_lang$core$Native_Date.fromTime;
+var _elm_lang$core$Date$toTime = _elm_lang$core$Native_Date.toTime;
+var _elm_lang$core$Date$fromString = _elm_lang$core$Native_Date.fromString;
+var _elm_lang$core$Date$now = A2(_elm_lang$core$Task$map, _elm_lang$core$Date$fromTime, _elm_lang$core$Time$now);
+var _elm_lang$core$Date$Date = {ctor: 'Date'};
+var _elm_lang$core$Date$Sun = {ctor: 'Sun'};
+var _elm_lang$core$Date$Sat = {ctor: 'Sat'};
+var _elm_lang$core$Date$Fri = {ctor: 'Fri'};
+var _elm_lang$core$Date$Thu = {ctor: 'Thu'};
+var _elm_lang$core$Date$Wed = {ctor: 'Wed'};
+var _elm_lang$core$Date$Tue = {ctor: 'Tue'};
+var _elm_lang$core$Date$Mon = {ctor: 'Mon'};
+var _elm_lang$core$Date$Dec = {ctor: 'Dec'};
+var _elm_lang$core$Date$Nov = {ctor: 'Nov'};
+var _elm_lang$core$Date$Oct = {ctor: 'Oct'};
+var _elm_lang$core$Date$Sep = {ctor: 'Sep'};
+var _elm_lang$core$Date$Aug = {ctor: 'Aug'};
+var _elm_lang$core$Date$Jul = {ctor: 'Jul'};
+var _elm_lang$core$Date$Jun = {ctor: 'Jun'};
+var _elm_lang$core$Date$May = {ctor: 'May'};
+var _elm_lang$core$Date$Apr = {ctor: 'Apr'};
+var _elm_lang$core$Date$Mar = {ctor: 'Mar'};
+var _elm_lang$core$Date$Feb = {ctor: 'Feb'};
+var _elm_lang$core$Date$Jan = {ctor: 'Jan'};
 
 var _elm_lang$core$Debug$crash = _elm_lang$core$Native_Debug.crash;
 var _elm_lang$core$Debug$log = _elm_lang$core$Native_Debug.log;
@@ -9228,10 +9300,27 @@ var _evancz$elm_markdown$Markdown$Options = F4(
 		return {githubFlavored: a, defaultHighlighting: b, sanitize: c, smartypants: d};
 	});
 
-var _user$project$Model$Model = F2(
-	function (a, b) {
-		return {plane: a, windowSize: b};
+var _user$project$Blob$createDownloadUrl = _elm_lang$core$Native_Platform.outgoingPort(
+	'createDownloadUrl',
+	function (v) {
+		return v;
 	});
+var _user$project$Blob$getDownloadUrl = _elm_lang$core$Native_Platform.incomingPort('getDownloadUrl', _elm_lang$core$Json_Decode$string);
+
+var _user$project$Model$Model = F4(
+	function (a, b, c, d) {
+		return {plane: a, windowSize: b, title: c, downloadUrl: d};
+	});
+var _user$project$Model$GetDate = function (a) {
+	return {ctor: 'GetDate', _0: a};
+};
+var _user$project$Model$GetUrl = function (a) {
+	return {ctor: 'GetUrl', _0: a};
+};
+var _user$project$Model$Output = {ctor: 'Output'};
+var _user$project$Model$TitleInput = function (a) {
+	return {ctor: 'TitleInput', _0: a};
+};
 var _user$project$Model$GetWindowSize = function (a) {
 	return {ctor: 'GetWindowSize', _0: a};
 };
@@ -9239,7 +9328,9 @@ var _user$project$Model$init = {
 	ctor: '_Tuple2',
 	_0: {
 		plane: '',
-		windowSize: A2(_elm_lang$window$Window$Size, 0, 0)
+		windowSize: A2(_elm_lang$window$Window$Size, 0, 0),
+		title: '',
+		downloadUrl: ''
 	},
 	_1: A2(
 		_elm_lang$core$Task$perform,
@@ -9251,24 +9342,82 @@ var _user$project$Model$TextInput = function (a) {
 };
 var _user$project$Model$NoOp = {ctor: 'NoOp'};
 
+var _user$project$Update$encodeModel = F2(
+	function (model, date) {
+		var value = _elm_lang$core$Json_Encode$object(
+			{
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'title',
+					_1: _elm_lang$core$Json_Encode$string(model.title)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'content',
+						_1: _elm_lang$core$Json_Encode$string(model.plane)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'time',
+							_1: _elm_lang$core$Json_Encode$string(
+								_elm_lang$core$Basics$toString(date))
+						},
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+		return A2(_elm_lang$core$Json_Encode$encode, 4, value);
+	});
 var _user$project$Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'TextInput':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{plane: _p0._0}),
-					{ctor: '[]'});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{plane: _p0._0});
+				return {
+					ctor: '_Tuple2',
+					_0: newModel,
+					_1: A2(_elm_lang$core$Task$perform, _user$project$Model$GetDate, _elm_lang$core$Date$now)
+				};
 			case 'GetWindowSize':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{windowSize: _p0._0}),
-					{ctor: '[]'});
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'TitleInput':
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{title: _p0._0});
+				return {
+					ctor: '_Tuple2',
+					_0: newModel,
+					_1: A2(_elm_lang$core$Task$perform, _user$project$Model$GetDate, _elm_lang$core$Date$now)
+				};
+			case 'GetUrl':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{downloadUrl: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'GetDate':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Blob$createDownloadUrl(
+						A2(_user$project$Update$encodeModel, model, _p0._0))
+				};
 			default:
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
@@ -9336,28 +9485,65 @@ var _user$project$View$contentView = function (model) {
 			}
 		});
 };
-var _user$project$View$headerView = A2(
-	_elm_lang$html$Html$header,
-	{ctor: '[]'},
-	{
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$h1,
-			{ctor: '[]'},
-			{
+var _user$project$View$headerView = function (model) {
+	return A2(
+		_elm_lang$html$Html$header,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('MarkDown Editer'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html$text('MarkDown Editer'),
-				_1: {ctor: '[]'}
-			}),
-		_1: {ctor: '[]'}
-	});
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onInput(_user$project$Model$TitleInput),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href(model.downloadUrl),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$target('_blank'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$downloadAs(
+										A2(_elm_lang$core$Basics_ops['++'], model.title, '.json')),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Output'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
 var _user$project$View$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _user$project$View$headerView,
+			_0: _user$project$View$headerView(model),
 			_1: {
 				ctor: '::',
 				_0: _user$project$View$contentView(model),
@@ -9367,7 +9553,16 @@ var _user$project$View$view = function (model) {
 };
 
 var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$window$Window$resizes(_user$project$Model$GetWindowSize);
+	return _elm_lang$core$Platform_Sub$batch(
+		{
+			ctor: '::',
+			_0: _elm_lang$window$Window$resizes(_user$project$Model$GetWindowSize),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Blob$getDownloadUrl(_user$project$Model$GetUrl),
+				_1: {ctor: '[]'}
+			}
+		});
 };
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{init: _user$project$Model$init, view: _user$project$View$view, update: _user$project$Update$update, subscriptions: _user$project$Main$subscriptions})();
