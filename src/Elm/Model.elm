@@ -2,6 +2,7 @@ module Model exposing (..)
 
 import Window exposing (Size, width, height)
 import Task
+import Date exposing (Date)
 
 
 -- model
@@ -37,3 +38,4 @@ type Msg
     | TitleInput String
     | Output
     | GetUrl String
+    | GetDate Date
