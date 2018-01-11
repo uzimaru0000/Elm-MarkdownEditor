@@ -9492,48 +9492,45 @@ var _user$project$View$headerView = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h1,
-				{ctor: '[]'},
+				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('MarkDown Editer'),
-					_1: {ctor: '[]'}
-				}),
+					_0: _elm_lang$html$Html_Events$onInput(_user$project$Model$TitleInput),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('Input Title'),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$input,
+					_elm_lang$html$Html$a,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onInput(_user$project$Model$TitleInput),
-						_1: {ctor: '[]'}
-					},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$a,
-						{
+						_0: _elm_lang$html$Html_Attributes$href(model.downloadUrl),
+						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href(model.downloadUrl),
+							_0: _elm_lang$html$Html_Attributes$target('_blank'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$target('_blank'),
+								_0: _elm_lang$html$Html_Attributes$downloadAs(
+									A2(_elm_lang$core$Basics_ops['++'], model.title, '.json')),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$downloadAs(
-										A2(_elm_lang$core$Basics_ops['++'], model.title, '.json')),
+									_0: _elm_lang$html$Html_Attributes$class('btn'),
 									_1: {ctor: '[]'}
 								}
 							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Output'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Output'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
 			}
 		});
 };
