@@ -51,3 +51,55 @@ div#mdArea {
     padding: 10px;
     box-sizing: border-box;
 }
+
+input {
+    font-size: 24px;
+    color: #3c3c3c;
+    padding: 8px;
+    width: 512px;
+    border: none;
+    border-left: 5px #3c3c3c solid;
+    background-color: #eeeeee;
+    transition: all 500ms ease;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    outline: 0;
+}
+
+.btn {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 128px;
+    height: 32px;
+    background-color: #eeeeee;
+    color: #3c3c3c;
+    text-align: center;
+    line-height: 32px;
+    text-decoration: none;
+    margin-left: auto;
+    z-index: 2;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    transition: all 500ms ease;
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    display: block;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: #3c3c3c;
+    transition: all 500ms ease;
+}
+
+.btn:hover::before {
+    width: 100%;
+}
+
+.btn:hover {
+    color: #eeeeee;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}

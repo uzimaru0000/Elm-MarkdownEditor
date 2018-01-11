@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import Html exposing (Html, program, textarea, div, text, input, header, h1, button, a)
-import Html.Attributes exposing (type_, id, class, style, href, target, downloadAs)
+import Html.Attributes exposing (type_, id, class, style, href, target, downloadAs, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Markdown exposing (toHtml)
 import Model exposing (Model, Msg(..))
@@ -21,9 +21,18 @@ view model =
 headerView : Model -> Html Msg
 headerView model =
     header []
-        [ h1 [] [ text "MarkDown Editer" ]
-        , input [ onInput TitleInput ] []
-        , a [ href model.downloadUrl, target "_blank", downloadAs (model.title ++ ".json") ] [ text "Output" ]
+        [ input
+            [ onInput TitleInput
+            , placeholder "Input Title"
+            ]
+            []
+        , a
+            [ href model.downloadUrl
+            , target "_blank"
+            , downloadAs (model.title ++ ".json")
+            , class "btn"
+            ]
+            [ text "Output" ]
         ]
 
 
